@@ -44,9 +44,9 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.VPS_HOST }},
-          username: ${{ secrets.VPS_USER }},
-          key: ${{ secrets.VPS_PRIVATE_KEY }},
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
             VERSION=${{ needs.build-and-push.outputs.app_version }}
             IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/sakuin
