@@ -48,7 +48,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
-            cd ~/sakuin
+            cd ~/sakuin-be
             VERSION=${{ needs.build-and-push.outputs.app_version }}
             IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/sakuin
 
