@@ -41,18 +41,20 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+      - name: Version Checking
+        run: echo "Version = ${{ needs.build-and-push.outputs.app_version }}"
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
+        env:
+          VERSION: ${{ needs.build-and-push.outputs.app_version }}
+          IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/sakuin
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
             cd ~/sakuin-be
-            VERSION=${{ needs.build-and-push.outputs.app_version }}
-            IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/sakuin
-
-            echo "Deploying version $VERSION"
-
+            echo "VERSION=$VERSION" >> .env
+            echo "IMAGE_NAME=$IMAGE_NAME" >> .env
             docker compose pull
             docker compose up -d
