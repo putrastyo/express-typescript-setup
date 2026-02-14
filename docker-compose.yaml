@@ -1,0 +1,18 @@
+services:
+  mongodb:
+    image: mongo:8.2 # source: https://hub.docker.com/_/mongo
+    container_name: sakuin-db
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    env_file:
+      - .env
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
