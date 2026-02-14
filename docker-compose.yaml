@@ -1,4 +1,14 @@
 services:
+  app:
+    image: ${IMAGE_NAME}:${VERSION}
+    container_name: sakuin
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file: .env
+    depends_on:
+      - mongodb
+
   mongodb:
     image: mongo:8.2 # source: https://hub.docker.com/_/mongo
     container_name: sakuin-db

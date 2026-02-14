@@ -48,17 +48,11 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
+            cd ~/sakuin
             VERSION=${{ needs.build-and-push.outputs.app_version }}
             IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/sakuin
 
             echo "Deploying version $VERSION"
 
-            docker pull $IMAGE_NAME:$VERSION
-            docker stop sakuin || true
-            docker rm sakuin || true
-
-            docker run -d \
-              --name sakuin \
-              -p 3000:3000 \
-              --env-file .env \
-              $IMAGE_NAME:$VERSION
+            docker compose pull
+            docker compose up -d
