@@ -43,16 +43,13 @@ jobs:
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
-        env:
-          VERSION: ${{ needs.build-and-push.outputs.app_version }}
-          IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/sakuin
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
             cd ~/sakuin-be
-            export VERSION=$VERSION
-            export IMAGE_NAME=$IMAGE_NAME
+            export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+            export VERSION=${{ needs.build-and-push.outputs.app_version }}
             docker compose pull
             docker compose up -d
